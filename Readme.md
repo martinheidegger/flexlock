@@ -23,11 +23,11 @@ lock(async () => {
   // done before the next block
 })
 lock(async () => {
-  // done after the next block
+  // done after the previous block
 })
 ```
 
-## _Timeouts_ in case anther lock never returns
+### _Timeouts_ in case anther lock never returns
 
 ```javascript
 lock(() => new Promise()) // This never releases the lock
@@ -37,7 +37,7 @@ lock(async () => {}, 500)
   })
 ```
 
-## _Propagation_ of errors and results
+### _Propagation_ of errors and results
 
 ```javascript
 async function business () {
@@ -53,7 +53,7 @@ async function business () {
 }
 ```
 
-## _Dedicated locks_ for more readable async code
+### _Dedicated locks_ for more readable async code
 
 ```javascript
 async function business () {
@@ -63,10 +63,10 @@ async function business () {
 }
 ```
 
-## _Namespace_ support for multiple lockers
+### _Namespace_ support for multiple lockers
 
 ```javascript
-const createLocker = require('flexlock/createLocker') // You can also get it through require('flexlock').createLocker
+const createLocker = require('flexlock/createLocker') // require('flexlock').createLocker works too
 
 const lock = createLocker()
 
@@ -77,6 +77,6 @@ async function business (id, content) {
 }
 ```
 
-## License
+### License
 
 MIT
