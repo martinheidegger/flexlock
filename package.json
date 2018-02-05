@@ -7,7 +7,8 @@
     "test": "npm run test:lint && npm run test:unit",
     "test:lint": "standard",
     "test:unit": "tap test/*.js",
-    "test:ci": "npm run test:lint && npm run test:unit -- --cov --coverage-report=lcov && codeclimate-test-reporter < ./coverage/lcov.info"
+    "test:ci": "npm run test:lint && npm run test:unit -- --cov --coverage-report=lcov && codeclimate-test-reporter < ./coverage/lcov.info",
+    "release": "standard-version"
   },
   "keywords": [
     "promise",
@@ -19,6 +20,7 @@
   "devDependencies": {
     "codeclimate-test-reporter": "^0.5.0",
     "standard": "^10.0.3",
+    "standard-version": "^4.3.0",
     "tap": "^11.1.0"
   },
   "directories": {
