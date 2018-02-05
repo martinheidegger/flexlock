@@ -1,7 +1,7 @@
 # _flexlock_...
 
 
-[![Build Status](https://travis-ci.org/martinheidegger/flexlock.svg?branch=master)](https://travis-ci.org/martinheidegger/flexlock)
+<a href="https://travis-ci.org/martinheidegger/flexlock"><img src="https://travis-ci.org/martinheidegger/flexlock.svg?branch=master" alt="Build Status"/></a>
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![Maintainability](https://api.codeclimate.com/v1/badges/64b42212bd9ebab25cda/maintainability)](https://codeclimate.com/github/martinheidegger/flexlock/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/64b42212bd9ebab25cda/test_coverage)](https://codeclimate.com/github/martinheidegger/flexlock/test_coverage)
