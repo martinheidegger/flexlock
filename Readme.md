@@ -3,6 +3,8 @@
 
 [![Build Status](https://travis-ci.org/martinheidegger/flexlock.svg?branch=master)](https://travis-ci.org/martinheidegger/flexlock)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Maintainability](https://api.codeclimate.com/v1/badges/64b42212bd9ebab25cda/maintainability)](https://codeclimate.com/github/martinheidegger/flexlock/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/64b42212bd9ebab25cda/test_coverage)](https://codeclimate.com/github/martinheidegger/flexlock/test_coverage)
 
 ...is a **memory-efficient**, **flexible**, **Promise**-based logging without dependencies.
 
@@ -41,8 +43,8 @@ lock(async () => {}, 500)
 async function business () {
   try {
     const important = await lock(async () => {
-        // do your thing
-        return important
+      // do your thing
+      return important
     })
     // You can use the important data here.
   } catch (err) {
@@ -64,7 +66,7 @@ async function business () {
 ## _Namespace_ support for multiple lockers
 
 ```javascript
-const createLocker = require('flexlock/createLocker')
+const createLocker = require('flexlock/createLocker') // You can also get it through require('flexlock').createLocker
 
 const lock = createLocker()
 
