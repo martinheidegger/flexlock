@@ -1,5 +1,5 @@
 'use strict'
-function waitForPrevious (prevLock, timeout, unlock) {
+function waitForPreviousLock (prevLock, timeout, unlock) {
   if (timeout === undefined) {
     return prevLock.then(function () {
       return Promise.resolve(unlock)
@@ -18,10 +18,24 @@ function waitForPrevious (prevLock, timeout, unlock) {
   })
 }
 
+function wrapProcess (process) {
+  return function wrapped (unlock) {
+    return process()
+      .then(function passResult (result) {
+        unlock()
+        return Promise.resolve(result)
+      })
+      .catch(function passError (err) {
+        unlock(err)
+        return Promise.reject(err)
+      })
+  }
+}
+
 module.exports = function createLock (onUnlocked) {
   let currentLock
 
-  function lockProcess (process, timeout) {
+  function lockPromise (timeout) {
     let resolveLock
     const prevLock = currentLock
     const thisLock = new Promise(function (resolve) {
@@ -38,29 +52,18 @@ module.exports = function createLock (onUnlocked) {
     }
 
     if (prevLock) {
-      return waitForPrevious(prevLock, timeout, unlock)
+      return waitForPreviousLock(prevLock, timeout, unlock)
     }
     return Promise.resolve(unlock)
   }
 
   return function lock (process, timeout) {
     if (typeof process === 'number') {
-      return lockProcess(null, process)
+      return lockPromise(process)
     }
     if (typeof process === 'function') {
-      return lockProcess(null, timeout)
-        .then(function (unlock) {
-          return process()
-            .then(function (result) {
-              unlock()
-              return Promise.resolve(result)
-            })
-            .catch(function (err) {
-              unlock(err)
-              return Promise.reject(err)
-            })
-        })
+      return lockPromise(timeout).then(wrapProcess(process))
     }
-    return lockProcess(null, timeout)
+    return lockPromise(timeout)
   }
 }
