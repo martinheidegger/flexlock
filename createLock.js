@@ -32,23 +32,30 @@ function wrapProcess (process) {
   }
 }
 
+function createRawLock (onUnlocked) {
+  let resolveLock
+  const lock = new Promise(function (resolve) {
+    resolveLock = resolve
+  })
+  lock.unlock = function (currentLock) {
+    if (currentLock === lock) {
+      currentLock = null
+      onUnlocked && onUnlocked()
+    }
+    resolveLock()
+  }
+  return lock
+}
+
 module.exports = function createLock (onUnlocked) {
   let currentLock
 
   function lockPromise (timeout) {
-    let resolveLock
     const prevLock = currentLock
-    const thisLock = new Promise(function (resolve) {
-      resolveLock = resolve
-    })
+    const thisLock = createRawLock(onUnlocked)
     currentLock = thisLock
-
-    function unlock () {
-      if (currentLock === thisLock) {
-        currentLock = null
-        onUnlocked && onUnlocked()
-      }
-      resolveLock()
+    const unlock = function () {
+      thisLock.unlock(currentLock)
     }
 
     if (prevLock) {
@@ -58,12 +65,10 @@ module.exports = function createLock (onUnlocked) {
   }
 
   return function lock (process, timeout) {
-    if (typeof process === 'number') {
-      return lockPromise(process)
-    }
     if (typeof process === 'function') {
       return lockPromise(timeout).then(wrapProcess(process))
     }
+    timeout = (typeof process === 'number') ? process : timeout
     return lockPromise(timeout)
   }
 }
