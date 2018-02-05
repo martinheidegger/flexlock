@@ -1,13 +1,16 @@
-# `flexlock` is a **memory-efficient**, **flexible** `Promise`-based logging without dependencies.
+# _flexlock_...
+
 
 [![Build Status](https://travis-ci.org/martinheidegger/flexlock.svg?branch=master)](https://travis-ci.org/martinheidegger/flexlock)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-A locking library like [`mutexify`](https://github.com/mafintosh/mutexify), [`mutex-js`](https://github.com/danielglennross/mutex-js), [`await-lock`](https://www.npmjs.com/package/await-lock), and [many more](https://www.npmjs.com/search?q=promise+lock), but with more flexibility in how
+...is a **memory-efficient**, **flexible**, **Promise**-based logging without dependencies.
+
+A in-memory locking library like [`mutexify`](https://github.com/mafintosh/mutexify), [`mutex-js`](https://github.com/danielglennross/mutex-js), [`await-lock`](https://www.npmjs.com/package/await-lock), and [many more](https://www.npmjs.com/search?q=promise+lock), but with more flexibility in how
 to use it to be both sturdier and more practical.
 
 
-# Simple API when it suffices
+# _simple_ API when that suffices
 
 ```javascript
 const createLock = require('flexlock/createLock') // require('flexlock').createLock works too
@@ -22,7 +25,7 @@ lock(async () => {
 })
 ```
 
-## `Timeouts` in case anther lock never returns
+## _Timeouts_ in case anther lock never returns
 
 ```javascript
 lock(() => new Promise()) // This never releases the lock
@@ -32,7 +35,7 @@ lock(async () => {}, 500)
   })
 ```
 
-## `Propagation` of errors and results
+## _Propagation_ of errors and results
 
 ```javascript
 async function business () {
@@ -48,7 +51,7 @@ async function business () {
 }
 ```
 
-## `Dedicated locks` for more readable async code
+## _Dedicated locks_ for more readable async code
 
 ```javascript
 async function business () {
@@ -58,7 +61,7 @@ async function business () {
 }
 ```
 
-## `Namespace` support for multiple lockers
+## _Namespace_ support for multiple lockers
 
 ```javascript
 const createLocker = require('flexlock/createLocker')
