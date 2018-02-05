@@ -1,0 +1,34 @@
+{
+  "name": "flexlock",
+  "version": "1.0.0",
+  "description": "A locking library like [`mutexify`](https://github.com/mafintosh/mutexify), [`mutex-js`](https://github.com/danielglennross/mutex-js), [`await-lock`](https://www.npmjs.com/package/await-lock), and [many more](https://www.npmjs.com/search?q=promise+lock), but with more flexibility in how to use it to be both sturdier and more practical.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test:lint && npm run test:unit -- --cov",
+    "test:lint": "standard",
+    "test:unit": "tap test/*.js"
+  },
+  "keywords": [
+    "promise",
+    "lock",
+    "async"
+  ],
+  "author": "Martin Heidegger <martin.heidegger@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "standard": "^10.0.3",
+    "tap": "^11.1.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martinheidegger/flexlock.git"
+  },
+  "bugs": {
+    "url": "https://github.com/martinheidegger/flexlock/issues"
+  },
+  "homepage": "https://github.com/martinheidegger/flexlock#readme"
+}
