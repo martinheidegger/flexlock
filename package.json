@@ -4,9 +4,10 @@
   "description": "A locking library like [`mutexify`](https://github.com/mafintosh/mutexify), [`mutex-js`](https://github.com/danielglennross/mutex-js), [`await-lock`](https://www.npmjs.com/package/await-lock), and [many more](https://www.npmjs.com/search?q=promise+lock), but with more flexibility in how to use it to be both sturdier and more practical.",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test:lint && npm run test:unit -- --cov",
+    "test": "npm run test:lint && npm run test:unit",
     "test:lint": "standard",
-    "test:unit": "tap test/*.js"
+    "test:unit": "tap test/*.js",
+    "test:ci": "npm run test:lint && npm run test:unit -- --cov --coverage-report=lcov && codeclimate-test-reporter < ./coverage/lcov.info"
   },
   "keywords": [
     "promise",
@@ -16,6 +17,7 @@
   "author": "Martin Heidegger <martin.heidegger@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "codeclimate-test-reporter": "^0.5.0",
     "standard": "^10.0.3",
     "tap": "^11.1.0"
   },
