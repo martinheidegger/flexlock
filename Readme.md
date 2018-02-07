@@ -10,8 +10,8 @@
 
 `npm i flexlock --save`
 
-A in-memory locking library like [`mutexify`](https://github.com/mafintosh/mutexify), [`mutex-js`](https://github.com/danielglennross/mutex-js), [`await-lock`](https://www.npmjs.com/package/await-lock), and [many more](https://www.npmjs.com/search?q=promise+lock), but with more flexibility in how
-to use it to be both sturdier and more practical.
+It is similar to other in-memory locking library like [`mutexify`](https://github.com/mafintosh/mutexify), [`mutex-js`](https://github.com/danielglennross/mutex-js), [`await-lock`](https://www.npmjs.com/package/await-lock), and [many more](https://www.npmjs.com/search?q=promise+lock), but with more flexibility in how
+to use it. This makes it sturdier and more practical in many cases.
 
 
 ### _simple_ API when that suffices
@@ -80,7 +80,7 @@ async function business (id, content) {
 ```
 
 _Implementation note: The locker will use `createLock` per id. It will keep the created lock until all locks
-for an id are released. Then it will pass the lock to the garbage collector._
+for that id are released. Then it will pass the lock to the garbage collector._
 
 ### License
 
