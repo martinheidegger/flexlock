@@ -1,4 +1,4 @@
-# _flexlock_...
+# flexlock
 
 
 <a href="https://travis-ci.org/martinheidegger/flexlock"><img src="https://travis-ci.org/martinheidegger/flexlock.svg?branch=master" alt="Build Status"/></a>
@@ -6,7 +6,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/64b42212bd9ebab25cda/maintainability)](https://codeclimate.com/github/martinheidegger/flexlock/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/64b42212bd9ebab25cda/test_coverage)](https://codeclimate.com/github/martinheidegger/flexlock/test_coverage)
 
-...is a **small**, **memory-concious**, **flexible**, **Promise**-based locking library without dependencies.
+`flexlock` is a **small**, **memory-concious**, **flexible**, **Promise**-based locking library without dependencies.
 
 `npm i flexlock --save`
 
@@ -14,7 +14,7 @@ A in-memory locking library like [`mutexify`](https://github.com/mafintosh/mutex
 to use it to be both sturdier and more practical.
 
 
-# _simple_ API when that suffices
+### _simple_ API when that suffices
 
 ```javascript
 const createLock = require('flexlock/createLock') // require('flexlock').createLock works too
