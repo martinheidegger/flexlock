@@ -6,7 +6,9 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/64b42212bd9ebab25cda/maintainability)](https://codeclimate.com/github/martinheidegger/flexlock/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/64b42212bd9ebab25cda/test_coverage)](https://codeclimate.com/github/martinheidegger/flexlock/test_coverage)
 
-...is a **memory-efficient**, **flexible**, **Promise**-based logging without dependencies.
+...is a **small**, **memory-concious**, **flexible**, **Promise**-based locking library without dependencies.
+
+`npm i flexlock --save`
 
 A in-memory locking library like [`mutexify`](https://github.com/mafintosh/mutexify), [`mutex-js`](https://github.com/danielglennross/mutex-js), [`await-lock`](https://www.npmjs.com/package/await-lock), and [many more](https://www.npmjs.com/search?q=promise+lock), but with more flexibility in how
 to use it to be both sturdier and more practical.
@@ -76,6 +78,9 @@ async function business (id, content) {
   })
 }
 ```
+
+_Implementation note: The locker will use `createLock` per id. It will keep the created lock until all locks
+for an id are released. Then it will pass the lock to the garbage collector._
 
 ### License
 
