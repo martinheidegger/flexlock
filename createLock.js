@@ -47,7 +47,7 @@ function createRawLock (onUnlocked) {
   return lock
 }
 
-module.exports = function createLock (onUnlocked) {
+function createLock (onUnlocked) {
   let currentLock
 
   function lockPromise (timeout) {
@@ -72,3 +72,7 @@ module.exports = function createLock (onUnlocked) {
     return lockPromise(timeout)
   }
 }
+createLock.default = createLock
+
+// export default function createLock
+module.exports = createLock

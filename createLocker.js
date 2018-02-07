@@ -1,7 +1,7 @@
 'use strict'
 const createLock = require('./createLock')
 
-module.exports = function () {
+function createLocker () {
   const locks = {}
 
   return function (key, process, timeout) {
@@ -15,3 +15,5 @@ module.exports = function () {
     return lock(process, timeout)
   }
 }
+createLocker.default = createLocker
+module.exports = createLocker
