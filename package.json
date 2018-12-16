@@ -1,6 +1,6 @@
 {
   "name": "flexlock",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A locking library like [`mutexify`](https://github.com/mafintosh/mutexify), [`mutex-js`](https://github.com/danielglennross/mutex-js), [`await-lock`](https://www.npmjs.com/package/await-lock), and [many more](https://www.npmjs.com/search?q=promise+lock), but with more flexibility in how to use it to be both sturdier and more practical.",
   "main": "index.js",
   "scripts": {
