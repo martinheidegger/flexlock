@@ -32,6 +32,7 @@ test('Lock with timeout', function (t) {
       .catch(function (err) {
         t.equals(err.code, 'ETIMEOUT')
         t.equals(err.message, 'Timeout[t=10]')
+        t.equals(err.timeout, 10)
       })
   ])
 })

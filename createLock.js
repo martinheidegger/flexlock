@@ -13,6 +13,7 @@ function waitForPreviousLock (prevLock, timeout, unlock) {
     let t = setTimeout(function () {
       const e = new Error('Timeout[t=' + timeout + ']')
       e.code = 'ETIMEOUT'
+      e.timeout = timeout
       reject(e)
     }, timeout)
   })
