@@ -65,6 +65,20 @@ async function business () {
 }
 ```
 
+### _release_ handlers both once and globally
+
+```javascript
+const lock = createLock(() => {
+  // called every time the lock is released
+})
+
+lock.released(function () {
+  // called once, next time the lock is released
+})
+
+await lock.released() // Promise API available as well
+```
+
 ### _Namespace_ support for multiple lockers
 
 ```javascript

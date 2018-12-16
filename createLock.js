@@ -1,12 +1,15 @@
 'use strict'
-function waitForPreviousLock (prevLock, timeout, unlock) {
+const createRawLock = require('./lib/createRawLock.js')
+const globalLock = require('./lib/globalLock.js')
+
+function waitForPromise (promise, timeout, unlock) {
   if (timeout === undefined) {
-    return prevLock.then(function () {
+    return promise.then(function () {
       return Promise.resolve(unlock)
     })
   }
   return new Promise(function (resolve, reject) {
-    prevLock.then(function () {
+    promise.then(function () {
       clearTimeout(t)
       resolve(unlock)
     })
@@ -33,47 +36,42 @@ function wrapProcess (process) {
   }
 }
 
-function createRawLock (onUnlocked) {
-  let resolveLock
-  const lock = new Promise(function (resolve) {
-    resolveLock = resolve
+function createLock (onReleased) {
+  let currentLock = null
+  const global = globalLock(function () {
+    return currentLock === null
   })
-  lock.unlock = function (currentLock) {
-    if (currentLock === lock) {
-      currentLock = null
-      onUnlocked && onUnlocked()
-    }
-    resolveLock()
-  }
-  return lock
-}
-
-function createLock (onUnlocked) {
-  let currentLock
 
   function lockPromise (timeout) {
     const prevLock = currentLock
-    const thisLock = createRawLock(onUnlocked)
+    const thisLock = createRawLock()
     currentLock = thisLock
     const unlock = function () {
+      if (currentLock === thisLock) {
+        currentLock = null
+        global.trigger()
+      }
       thisLock.unlock(currentLock)
     }
-
-    if (prevLock) {
-      return waitForPreviousLock(prevLock, timeout, unlock)
+    if (prevLock !== null) {
+      return waitForPromise(prevLock, timeout, unlock)
     }
+    global.repeat(onReleased)
     return Promise.resolve(unlock)
   }
 
-  return function lock (process, timeout) {
+  function lock (process, timeout) {
     if (typeof process === 'function') {
       return lockPromise(timeout).then(wrapProcess(process))
     }
     timeout = (typeof process === 'number') ? process : timeout
     return lockPromise(timeout)
   }
+
+  lock.released = global.released
+
+  return lock
 }
 createLock.default = createLock
 
-// export default function createLock
 module.exports = createLock

@@ -63,12 +63,12 @@ test('Two locks with promise in handler and timeout', function (t) {
   ])
 })
 
-test('Multiple locks will call onUnlocked', function (t) {
-  t.plan(1)
+test('Multiple locks will call onReleased', function (t) {
   const lock = createLock(function () {
-    t.ok('Lock called!')
+    t.ok('onRelease called!')
+    t.end()
   })
-  return Promise.all([
+  Promise.all([
     lock(() => Promise.resolve()),
     lock(() => Promise.resolve())
   ])
@@ -99,6 +99,115 @@ test('Pass through error in handler process', function (t) {
     .catch(function (err) {
       t.equals(err.message, 'a', 'error a is properly passed through from the promise')
     })
+})
+
+test('Untriggered lock is released', function (t) {
+  const lock = createLock()
+  lock.released(function () {
+    t.end()
+  })
+})
+
+test('A triggered lock blocks a release', function (t) {
+  const lock = createLock()
+  let count = 0
+  lock(function () {
+    t.equals(count++, 0)
+    return Promise.resolve()
+  })
+  lock.released(function () {
+    t.equals(count++, 1)
+    t.end()
+  })
+})
+
+test('Releases work as promised', function (t) {
+  const lock = createLock()
+  const stack = []
+
+  return Promise.all([
+    lock.released().then(function a () {
+      stack.push('a')
+    }),
+    lock.released().then(function b () {
+      stack.push('b')
+    })
+  ]).then(function () {
+    t.deepEqual(stack, ['a', 'b'])
+  })
+})
+
+test('onReleased is call every time the lock is unlocked', function (t) {
+  const stack = []
+  const lock = createLock(function () {
+    stack.push('released')
+  })
+  lock(function a () {
+    stack.push('a')
+    return Promise.resolve()
+  })
+  return lock(function b () {
+    stack.push('b')
+    return Promise.resolve()
+  })
+    .then(() => delayedResolve(null, 2))
+    .then(function () {
+      return lock(function c () {
+        stack.push('c')
+        return new Promise(function (resolve) {
+          setTimeout(resolve, 10)
+        })
+      })
+    })
+    .then(() => delayedResolve(null, 2))
+    .then(function () {
+      return lock(function d () {
+        stack.push('d')
+        return Promise.resolve()
+      })
+    })
+    .then(() => delayedResolve(null, 2))
+    .then(function () {
+      t.deepEqual(stack, [
+        'a', 'b', 'released', 'c', 'released', 'd', 'released'
+      ])
+    })
+})
+
+test('release started after a lock shouldnt misfire', function (t) {
+  const lock = createLock()
+  const stack = []
+  return Promise.all([
+    lock.released().then(function () {
+      stack.push('release')
+    }),
+    lock(function a () {
+      stack.push('a')
+      return Promise.resolve()
+    })
+  ]).then(function () {
+    t.deepEqual(stack, [
+      'a', 'release'
+    ])
+  })
+})
+
+test('released started after a lock shouldnt misfire with a delay', function (t) {
+  const lock = createLock()
+  const stack = []
+  return Promise.all([
+    lock.released().then(function () {
+      stack.push('release')
+    }),
+    lock().then(function a (unlock) {
+      stack.push('a')
+      setTimeout(unlock, 10)
+    })
+  ]).then(function () {
+    t.deepEqual(stack, [
+      'a', 'release'
+    ])
+  })
 })
 
 function delayedResolve (data, timeout) {

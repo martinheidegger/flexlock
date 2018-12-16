@@ -22,6 +22,35 @@ test('Seperate locks may not interfere', function (t) {
   ])
 })
 
+test('Release for locks should be triggered', function (t) {
+  const lock = createLocker()
+  const stack = []
+  return Promise.all([
+    lock('a', () => {
+      stack.push('a')
+      return delayedResolve('x', 10)
+    }).then(() => stack.push('a-done')),
+    lock('b').then(unlock => {
+      stack.push('b')
+      stack.push('b-done')
+      unlock()
+    }),
+    lock.released('b', () => stack.push('b-release')),
+    lock.released('a', () => stack.push('a-release')),
+    lock.released(() => stack.push('release'))
+  ]).then(() => {
+    t.deepEqual(stack, [
+      'a',
+      'b',
+      'b-done',
+      'b-release',
+      'a-done',
+      'a-release',
+      'release'
+    ])
+  })
+})
+
 function delayedResolve (data, timeout) {
   return new Promise(function (resolve) {
     setTimeout(function () {
