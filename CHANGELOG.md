@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.1"></a>
+## [1.2.1](https://github.com/martinheidegger/flexlock/compare/v1.2.0...v1.2.1) (2018-12-17)
+
+
+### Bug Fixes
+
+* typo ([a6825ed](https://github.com/martinheidegger/flexlock/commit/a6825ed))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/martinheidegger/flexlock/compare/v1.1.0...v1.2.0) (2018-12-16)
 
