@@ -1,4 +1,4 @@
-declare module "flexlock/createLock" {
+declare module "flexlock/createLocker" {
 
   type callback = () => void
   type unlock = () => void
